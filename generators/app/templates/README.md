@@ -1,5 +1,5 @@
 # <%= name %>
 
-Follow these awesome courses:
+Learn these awesome things:
 
-* [Writing courses in Markdown](subjects/courses-md/)
+* [Using Courses MD](subjects/courses-md/)

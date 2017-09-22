@@ -1,44 +1,53 @@
 {
   "name": "generator-courses-md",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Bootstrap a Courses MD repository",
-  "homepage": "",
+  "homepage": "https://github.com/MediaComem/generator-courses-md",
+  "bugs": "https://github.com/MediaComem/generator-courses-md/issues",
+  "repository": "https://github.com/MediaComem/generator-courses-md.git",
   "author": {
     "name": "Simon Oulevay (Alpha Hydrae)",
-    "email": "npm@alphahydrae.com",
-    "url": ""
+    "email": "npm@alphahydrae.com"
   },
   "files": [
     "generators"
   ],
-  "main": "generators/index.js",
+  "main": "generators/app/index.js",
   "keywords": [
-    "",
+    "courses",
+    "courses-md",
+    "markdown",
     "yeoman-generator"
   ],
-  "devDependencies": {
-    "yeoman-test": "^1.6.0",
-    "yeoman-assert": "^3.0.0",
-    "nsp": "^2.6.3",
-    "eslint": "^4.1.0",
-    "eslint-config-xo-space": "^0.16.0",
-    "jest": "^21.0.0",
-    "jest-cli": "^21.0.0"
-  },
+  "license": "MIT",
   "dependencies": {
-    "chalk": "^1.1.3",
+    "chalk": "^2.1.0",
     "generator-git-init": "^1.1.3",
     "generator-npm-init": "^1.4.0",
-    "yeoman-generator": "^1.0.0",
+    "yeoman-generator": "^2.0.0",
     "yosay": "^2.0.0"
   },
-  "jest": {
-    "testEnvironment": "node"
+  "devDependencies": {
+    "doctoc": "^1.3.0",
+    "eslint": "^4.7.2",
+    "eslint-config-xo-space": "^0.16.0",
+    "jest": "^21.0.0",
+    "jest-cli": "^21.0.0",
+    "nsp": "^2.6.3",
+    "yeoman-assert": "^3.0.0",
+    "yeoman-test": "^1.6.0"
   },
   "scripts": {
+    "doctoc": "doctoc --notitle --github README.md",
     "prepublish": "nsp check",
     "pretest": "eslint . --fix",
     "test": "jest"
+  },
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "eslintConfig": {
     "extends": "xo-space",
@@ -46,7 +55,5 @@
       "jest": true,
       "node": true
     }
-  },
-  "repository": "MediaComem/generator-courses-md",
-  "license": "MIT"
+  }
 }

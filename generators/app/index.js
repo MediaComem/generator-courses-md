@@ -1,63 +1,63 @@
 const chalk = require('chalk');
 const Generator = require('yeoman-generator');
-const path = require('path');
 const yosay = require('yosay');
 
 module.exports = class extends Generator {
   constructor(...args) {
     super(...args);
 
-    this.option('name', {
+    this.argument('name', {
       type: String,
       required: false,
-      description: 'Project name',
-      alias: 'n',
-      hide: false
+      description: 'Project name'
     });
 
     this.option('git', {
       type: Boolean,
       required: false,
       description: 'Initialize a Git repository',
-      default: false
+      alias: 'g',
+      default: true
     });
   }
 
   async prompting() {
+
     // Have Yeoman greet the user.
     this.log(yosay(
       'Welcome to the ' + chalk.red('courses-md') + ' generator!'
     ));
 
-    const prompts = [
-      {
+    const prompts = [];
+
+    if (!this.options.name) {
+      prompts.push({
         type: 'input',
         name: 'name',
         message: 'name:',
-        default: this.options.name || path.basename(process.cwd())
-      }
-    ];
+        default: this.determineAppname()
+      });
+    }
 
-    this.answers = await this.prompt(prompts);
+    this.answers = prompts.length ? await this.prompt(prompts) : {};
 
     this.composeWith(require.resolve('generator-npm-init/app'), {
-      name: this.answers.name,
+      name: this.answers.name || this.options.name,
+      description: 'Courses written in Markdown',
+      author: this._guessAuthor(),
       keywords: ['courses', 'markdown'],
       license: 'MIT',
-      'skip-name': true,
-      'skip-main': true,
-      'skip-test': true,
+      private: true,
       scripts: {
         build: 'courses-md build',
         start: 'courses-md'
-      }
+      },
+      'skip-name': true,
+      'skip-main': true,
+      'skip-repo': true,
+      'skip-test': true,
+      'skip-version': true
     });
-
-    if (this.options.git) {
-      this.composeWith(require.resolve('generator-git-init'), {
-        commit: 'Initial commit'
-      });
-    }
   }
 
   writing() {
@@ -99,10 +99,48 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.npmInstall(['courses-md'], {save: true});
+
+    let message = chalk.yellow('npm install');
+    if (this._isBooleanOption('git', 'g', true, true)) {
+      message += ` && ${chalk.yellow('git init')} && ${chalk.yellow('git commit -m "Initial commit"')}`;
+    }
+
+    this.log(`\n${message}`);
+
+    this.npmInstall([ 'courses-md' ], { save: true });
+
+    if (this._isBooleanOption('git', 'g', true, true)) {
+      this.composeWith(require.resolve('generator-git-init'), {
+        commit: 'Initial commit'
+      });
+    }
   }
 
   end() {
+    this.log(`\n${chalk.yellow('npm start')}`);
     this.spawnCommand('npm', ['start']);
+  }
+
+  _guessAuthor() {
+
+    const name = this.user.git.name();
+    if (!name) {
+      return;
+    }
+
+    const email = this.user.git.email();
+    return email ? `${name} <${email}>` : name;
+  }
+
+  _isBooleanOption(name, alias, value, defaultValue) {
+
+    const mainValue = this._toBoolean(this.options[name]);
+    const aliasValue = this._toBoolean(this.options[alias]);
+
+    return defaultValue ? mainValue && aliasValue === value : mainValue || aliasValue === value;
+  }
+
+  _toBoolean(value) {
+    return !!value.toString().match(/^(?:1|y|yes|t|true)$/i);
   }
 };
