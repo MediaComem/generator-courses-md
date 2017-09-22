@@ -39,7 +39,7 @@
   },
   "scripts": {
     "doctoc": "doctoc --notitle --github README.md",
-    "prepublish": "nsp check",
+    "prepare": "nsp check",
     "pretest": "eslint . --fix",
     "test": "jest"
   },
