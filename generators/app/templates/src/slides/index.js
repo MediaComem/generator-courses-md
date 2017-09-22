@@ -1,5 +1,7 @@
 import course from 'courses-md/dist/client';
 
+import './index.css';
+
 //import myLogo from './my-logo.png';
 //
 //course.setLogo({
