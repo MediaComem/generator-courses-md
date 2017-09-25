@@ -22,7 +22,6 @@ module.exports = class extends Generator {
   }
 
   async prompting() {
-
     // Have Yeoman greet the user.
     this.log(yosay(
       'Welcome to the ' + chalk.red('courses-md') + ' generator!'
@@ -104,7 +103,6 @@ module.exports = class extends Generator {
   }
 
   install() {
-
     let message = chalk.yellow('npm install');
     if (this._isBooleanOption('git', 'g', true, true)) {
       message += ` && ${chalk.yellow('git init')} && ${chalk.yellow('git commit -m "Initial commit"')}`;
@@ -127,7 +125,6 @@ module.exports = class extends Generator {
   }
 
   _guessAuthor() {
-
     const name = this.user.git.name();
     if (!name) {
       return;
@@ -138,7 +135,6 @@ module.exports = class extends Generator {
   }
 
   _isBooleanOption(name, alias, value, defaultValue) {
-
     const mainValue = this._toBoolean(this.options[name]);
     const aliasValue = this._toBoolean(this.options[alias]);
 
